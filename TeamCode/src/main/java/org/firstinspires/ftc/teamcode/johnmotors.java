@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import java.util.ArrayList;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -20,35 +19,15 @@ public class johnmotors extends LinearOpMode {
  private DcMotor backLeftDrive = null;
  private DcMotor frontRightDrive = null;
  private DcMotor backRightDrive = null;
- private IMU imu;
- // private MecanumDrive drive = new MecanumDrive();
-
-public ArrayList<Double> driveFieldRelative(double forward, double strafe, double rotate){
-        // Converting from cartesian coordinates (x and y axis) to polar coordinates (A distance and angle, like in radar)
-        double theta = Math.atan2(forward, strafe); // The angle of the direction we want to move in
-        double radius = Math.hypot(strafe, forward); // How far we want to move
-        theta = AngleUnit.normalizeRadians(theta -
-                imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)); // Adjusting for the angle that the robot is already facing
-
-        double newForward = radius * Math.sin(theta);
-        double newStrafe = radius * Math.cos(theta);
-       
-        ArrayList<Double> new_numbers = new ArrayList<>();
-        new_numbers.add(newForward);
-        new_numbers.add(newStrafe);
-        new_numbers.add(rotate);
-       
-        return new_numbers;
-        
+  private MecanumDrive drive = new MecanumDrive();
 
 
-    }
 
 
  @Override
  public void runOpMode() {
    
-    // drive.init(hardwareMap, telemetry);
+     drive.init(hardwareMap, telemetry);
     
     
      // Initialize the hardware variables. Note that the strings used here must correspond
@@ -57,18 +36,7 @@ public ArrayList<Double> driveFieldRelative(double forward, double strafe, doubl
      backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_drive");
      frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");
      backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive");
-     
-     
-     
-     
-     imu = hardwareMap.get(IMU.class, "imu");
-     
-     
 
-    imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
-        )));
         
     
 
@@ -108,7 +76,7 @@ public ArrayList<Double> driveFieldRelative(double forward, double strafe, doubl
          double strafe =  gamepad1.right_stick_x;
          double rotation     =  (gamepad1.dpad_right?1.0:0.0)  - (gamepad1.dpad_left?1.0:0.0);
          
-          // drive.drive(forward, strafe, rotation);
+         drive.driveFieldRelative(forward, strafe, rotation);
          // ArrayList<Double> new_numbers = driveFieldRelative(forward, strafe, rotation);
          // forward = new_numbers.get(0);
          // strafe = new_numbers.get(1);
@@ -161,21 +129,11 @@ public ArrayList<Double> driveFieldRelative(double forward, double strafe, doubl
         
         
         
-        
-         YawPitchRollAngles robotOrientation;
-         robotOrientation = imu.getRobotYawPitchRollAngles();
-        
-         double Yaw = robotOrientation.getYaw(AngleUnit.RADIANS);
-         double Pitch = robotOrientation.getPitch(AngleUnit.RADIANS);
-         double Roll = robotOrientation.getRoll(AngleUnit.RADIANS);
-        
+
          // Show the elapsed game time and wheel power.
          telemetry.addData("Front Left / Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
          telemetry.addData("Back  Left / Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
          telemetry.addData("Ts robot so tuff boiiii", "Running for " + runtime.toString());
-          telemetry.addData("Yaw", Yaw);
-          telemetry.addData("Pitch", Pitch);
-          telemetry.addData("Roll", Roll);
 
          telemetry.update();
          
