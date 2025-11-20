@@ -37,9 +37,6 @@ public class johnmotors extends LinearOpMode {
      frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");
      backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive");
 
-        
-    
-
      // ########################################################################################
      // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
      // ########################################################################################
@@ -68,13 +65,15 @@ public class johnmotors extends LinearOpMode {
 
          // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
          double forward   = -gamepad1.right_stick_y;  // Note: pushing stick forward gives negative value
-         if (gamepad1.dpad_up){
+         if (gamepad1.dpad_up) {
              forward = 1.0;
-         }else if (gamepad1.dpad_down){
+         }
+
+         else if (gamepad1.dpad_down) {
              forward = -1.0;
          }
          double strafe =  gamepad1.right_stick_x;
-         double rotation     =  (gamepad1.dpad_right?1.0:0.0)  - (gamepad1.dpad_left?1.0:0.0);
+         double rotation = (gamepad1.dpad_right ? 1.0 : 0.0)  - (gamepad1.dpad_left ? 1.0 : 0.0);
          
          drive.driveFieldRelative(forward, strafe, rotation);
          // ArrayList<Double> new_numbers = driveFieldRelative(forward, strafe, rotation);
@@ -103,13 +102,13 @@ public class johnmotors extends LinearOpMode {
          }
          
          double speed = 0.5;
-         if (gamepad1.right_trigger>0.1){
+         if (gamepad1.right_trigger > 0.1){
              speed = 1.0;
          }
-         frontLeftPower *=speed;
-         frontRightPower *=speed;
-         backLeftPower *=speed;
-         backRightPower *=speed;
+         frontLeftPower *= speed;
+         frontRightPower *= speed;
+         backLeftPower *= speed;
+         backRightPower *= speed;
          // This is test code:
          //
          // Uncomment the following code to test your motor directions.
