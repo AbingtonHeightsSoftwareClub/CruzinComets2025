@@ -65,6 +65,7 @@ public class MecanumDrive {
         number of ticks per unit of your odometry pod.
          */
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odo.setOffsets((11.5-20.75)/2.54, -(1/2.54)*(3.6+17));
 
         /*
         Set the direction that each of the two odometry pods count. The X (forward) pod should
@@ -84,7 +85,7 @@ public class MecanumDrive {
         double backRightPower = forward + strafe - rotate;
 
         double maxPower = Collections.max(Arrays.asList(Constants.MAX_POWER, frontLeftPower, backLeftPower, frontRightPower, backRightPower));
-        frontLeftMotor.setVelocity(1.0);
+        frontLeftMotor.setVelocity(Constants.MAX_SPEED * ( frontLeftPower/ maxPower));
         frontRightMotor.setVelocity(Constants.MAX_SPEED * ( frontRightPower/ maxPower));
         backLeftMotor.setVelocity(Constants.MAX_SPEED * (backLeftPower / maxPower));
         backRightMotor.setVelocity(Constants.MAX_SPEED * (backRightPower / maxPower));
@@ -97,8 +98,9 @@ public class MecanumDrive {
 
         // Converting from cartesian coordinates (x and y axis) to polar coordinates (A distance and angle, like in radar)
         double theta = Math.atan2(forward, strafe); // The angle of the direction we want to move in
+
         double radius = Math.hypot(strafe, forward); // How far we want to move
-        // Seamus why are we calling ts the radius ts is litterally a line.
+        // Seamus why are we calling ts the radius ts is literally a line.
         // Seamus what the HELLL is our unit of measurement?!?!
         // Js guessing 
         Pose2D pos = odo.getPosition();
@@ -109,9 +111,5 @@ public class MecanumDrive {
         double newStrafe = radius * Math.cos(theta);
 
         this.drive(newForward, newStrafe, rotate);
-
-        
-
-
     }
 }

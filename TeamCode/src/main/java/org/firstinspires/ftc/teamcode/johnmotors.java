@@ -19,7 +19,7 @@ public class johnmotors extends LinearOpMode {
  private DcMotor backLeftDrive = null;
  private DcMotor frontRightDrive = null;
  private DcMotor backRightDrive = null;
-  private MecanumDrive drive = new MecanumDrive();
+ private MecanumDrive drive = new MecanumDrive();
 
 
 
@@ -121,13 +121,28 @@ public class johnmotors extends LinearOpMode {
 
 
          // Send calculated power to wheels
-         frontLeftDrive.setPower(frontLeftPower);
-         frontRightDrive.setPower(frontRightPower);
-         backLeftDrive.setPower(backLeftPower);
-         backRightDrive.setPower(backRightPower);
-        
-        
-        
+//         frontLeftDrive.setPower(frontLeftPower);
+//         frontRightDrive.setPower(frontRightPower);
+//         backLeftDrive.setPower(backLeftPower);
+//         backRightDrive.setPower(backRightPower);
+//
+//         // Wheel testing because they suck
+//
+//         if (gamepad1.a) {
+//             backRightDrive.setPower(1);
+//         }
+//
+//         if (gamepad1.b) {
+//             frontRightDrive.setPower(1);
+//         }
+//
+//         if (gamepad1.y) {
+//             frontLeftDrive.setPower(1);
+//         }
+//
+//         if (gamepad1.x) {
+//             backLeftDrive.setPower(1);
+//         }
 
          // Show the elapsed game time and wheel power.
          telemetry.addData("Front Left / Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
