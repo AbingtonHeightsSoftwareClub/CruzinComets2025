@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 
@@ -19,6 +20,10 @@ public class MecanumDrive {
     private IMU imu;
     private GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
+    double TPS;
+    int wheeltarget;
+    double  max_speed;
+
 
     public void init(HardwareMap hwMap, Telemetry telemetry) {
         frontLeftMotor = hwMap.get(DcMotorEx.class, "front_left_drive");
@@ -26,17 +31,33 @@ public class MecanumDrive {
         backLeftMotor = hwMap.get(DcMotorEx.class, "back_left_drive");
         backRightMotor = hwMap.get(DcMotorEx.class, "back_right_drive");
         
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorEx.Direction.REVERSE);
  
 
-        frontLeftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        frontRightMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        backRightMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        
+        frontLeftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+        wheeltarget = (int) (610 * Constants.COUNTS_PER_MM);;
+
+        frontLeftMotor.setTargetPosition(wheeltarget);
+        frontRightMotor.setTargetPosition(wheeltarget);
+        backLeftMotor.setTargetPosition(wheeltarget);
+        backRightMotor.setTargetPosition(wheeltarget);
+
+        frontLeftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        frontRightMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        backLeftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        backRightMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+
+
+        TPS = (175 / 60) * Constants.COUNTS_PER_MM;
+        max_speed = 2800.0 * TPS;
 
         // Default is logo facing up and USB ports facing forward on Robot Controller
         odo = hwMap.get(GoBildaPinpointDriver.class,"imu");
@@ -65,7 +86,7 @@ public class MecanumDrive {
         number of ticks per unit of your odometry pod.
          */
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odo.setOffsets((11.5-20.75)/2.54, -(1/2.54)*(3.6+17));
+        odo.setOffsets((11.5-20.75)/2.54, -(1/2.54)*(3.6+17), DistanceUnit.CM);
 
         /*
         Set the direction that each of the two odometry pods count. The X (forward) pod should
@@ -85,10 +106,10 @@ public class MecanumDrive {
         double backRightPower = forward + strafe - rotate;
 
         double maxPower = Collections.max(Arrays.asList(Constants.MAX_POWER, frontLeftPower, backLeftPower, frontRightPower, backRightPower));
-        frontLeftMotor.setVelocity(Constants.MAX_SPEED * ( frontLeftPower/ maxPower));
-        frontRightMotor.setVelocity(Constants.MAX_SPEED * ( frontRightPower/ maxPower));
-        backLeftMotor.setVelocity(Constants.MAX_SPEED * (backLeftPower / maxPower));
-        backRightMotor.setVelocity(Constants.MAX_SPEED * (backRightPower / maxPower));
+        frontLeftMotor.setPower(1.0);
+        frontRightMotor.setVelocity(max_speed);
+        backLeftMotor.setVelocity(max_speed);
+        backRightMotor.setVelocity(max_speed);
 
 
     }

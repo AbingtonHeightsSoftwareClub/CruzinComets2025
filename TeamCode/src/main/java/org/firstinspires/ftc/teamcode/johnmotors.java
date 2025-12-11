@@ -26,8 +26,8 @@ public class johnmotors extends LinearOpMode {
 
  @Override
  public void runOpMode() {
-   
-     drive.init(hardwareMap, telemetry);
+//
+//     drive.init(hardwareMap, telemetry);
     
     
      // Initialize the hardware variables. Note that the strings used here must correspond
@@ -47,10 +47,12 @@ public class johnmotors extends LinearOpMode {
      // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
      // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
      // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
-     // frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-     // backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-     // frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
-     // backRightDrive.setDirection(DcMotor.Direction.REVERSE);
+
+
+     frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+      backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+      frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
+      backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
      // Wait for the game to start (driver presses START)
      telemetry.addData("Status", "Initialized");
@@ -75,14 +77,15 @@ public class johnmotors extends LinearOpMode {
          double strafe =  gamepad1.right_stick_x;
          double rotation = (gamepad1.dpad_right ? 1.0 : 0.0)  - (gamepad1.dpad_left ? 1.0 : 0.0);
          
-         drive.driveFieldRelative(forward, strafe, rotation);
+//         drive.driveFieldRelative(forward, strafe, rotation);
          // ArrayList<Double> new_numbers = driveFieldRelative(forward, strafe, rotation);
          // forward = new_numbers.get(0);
          // strafe = new_numbers.get(1);
+
          // rotation = new_numbers.get(2);
          // Combine the joystick requests for each axis-motion to determine each wheel's power.
          // Set up a variable for each drive wheel to save the power level for telemetry.
-         
+
          double frontLeftPower  = forward + strafe + rotation;
          double frontRightPower = forward - strafe - rotation;
          double backLeftPower   = forward - strafe + rotation;
@@ -121,28 +124,28 @@ public class johnmotors extends LinearOpMode {
 
 
          // Send calculated power to wheels
-//         frontLeftDrive.setPower(frontLeftPower);
-//         frontRightDrive.setPower(frontRightPower);
-//         backLeftDrive.setPower(backLeftPower);
-//         backRightDrive.setPower(backRightPower);
-//
-//         // Wheel testing because they suck
-//
-//         if (gamepad1.a) {
-//             backRightDrive.setPower(1);
-//         }
-//
-//         if (gamepad1.b) {
-//             frontRightDrive.setPower(1);
-//         }
-//
-//         if (gamepad1.y) {
-//             frontLeftDrive.setPower(1);
-//         }
-//
-//         if (gamepad1.x) {
-//             backLeftDrive.setPower(1);
-//         }
+         frontLeftDrive.setPower(frontLeftPower);
+         frontRightDrive.setPower(frontRightPower);
+         backLeftDrive.setPower(backLeftPower);
+         backRightDrive.setPower(backRightPower);
+
+         // Wheel testing because they suck
+
+         if (gamepad1.a) {
+             backRightDrive.setPower(1);
+         }
+
+         if (gamepad1.b) {
+             frontRightDrive.setPower(1);
+         }
+
+         if (gamepad1.y) {
+             frontLeftDrive.setPower(1);
+         }
+
+         if (gamepad1.x) {
+             backLeftDrive.setPower(1);
+         }
 
          // Show the elapsed game time and wheel power.
          telemetry.addData("Front Left / Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
