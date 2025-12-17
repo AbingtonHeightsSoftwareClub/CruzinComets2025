@@ -23,7 +23,7 @@ public class Constants {
     public static final double COUNTS_PER_WHEEL_REV = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
     public static final double COUNTS_PER_MM = COUNTS_PER_MOTOR_REV / WHEEL_CIRCUMFERENCE_MM;
 
-    public static FollowerConstants followerConstants = new FollowerConstants().mass(6);
+    public static FollowerConstants followerConstants = new FollowerConstants().mass(6).forwardZeroPowerAcceleration(-11253.86).lateralZeroPowerAcceleration(-75.0);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
 
@@ -36,7 +36,9 @@ public class Constants {
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE);
+            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .xVelocity(70.0)
+            .yVelocity(50.0);
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .forwardPodY(-(1/2.54)*(3.6+17))

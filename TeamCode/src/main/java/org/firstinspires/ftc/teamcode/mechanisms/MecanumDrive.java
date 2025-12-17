@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -30,12 +29,12 @@ public class MecanumDrive {
         frontRightMotor = hwMap.get(DcMotorEx.class, "front_right_drive");
         backLeftMotor = hwMap.get(DcMotorEx.class, "back_left_drive");
         backRightMotor = hwMap.get(DcMotorEx.class, "back_right_drive");
-        
+
         frontLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorEx.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorEx.Direction.REVERSE);
- 
+
 
         frontLeftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         frontRightMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -63,7 +62,7 @@ public class MecanumDrive {
         max_speed = 2800.0 * TPS;
 
         // Default is logo facing up and USB ports facing forward on Robot Controller
-        odo = hwMap.get(GoBildaPinpointDriver.class,"imu");
+        odo = hwMap.get(GoBildaPinpointDriver.class,"pinpoint");
 
         RevHubOrientationOnRobot RevOrientation = new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
@@ -109,10 +108,10 @@ public class MecanumDrive {
         double backRightPower = forward + strafe - rotate;
 
         double maxPower = Collections.max(Arrays.asList(Constants.MAX_POWER, frontLeftPower, backLeftPower, frontRightPower, backRightPower));
-        frontLeftMotor.setPower(1.0);
-        frontRightMotor.setVelocity(max_speed);
-        backLeftMotor.setVelocity(max_speed);
-        backRightMotor.setVelocity(max_speed);
+        frontRightMotor.setVelocity(frontLeftPower/maxPower);
+        frontRightMotor.setVelocity(frontRightPower/maxPower);
+        backLeftMotor.setVelocity(backLeftPower/maxPower);
+        backRightMotor.setVelocity(backRightPower/maxPower);
 
 
     }
@@ -126,7 +125,7 @@ public class MecanumDrive {
         double radius = Math.hypot(strafe, forward); // How far we want to move
         // Seamus why are we calling ts the radius ts is literally a line.
         // Seamus what the HELLL is our unit of measurement?!?!
-        // Js guessing 
+        // Js guessing
         Pose2D pos = odo.getPosition();
         theta = AngleUnit.normalizeRadians(theta -
                 pos.getHeading(AngleUnit.RADIANS)); // Adjusting for the angle that the robot is already facing
