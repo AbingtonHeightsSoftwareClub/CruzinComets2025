@@ -20,8 +20,9 @@ public class pedroPathTest extends OpMode {
         // START POSITION_END POSITION
         // DRIVE > MOVEMENT STATE
         // SHOOT > ATTEMPT TO SCORE THE ARTIFACT
-        DRIVE_STARTPOS_SHOOT_POS,
-        SHOOT_PRELOAD
+        DRIVE_START_SHOOT,
+        SHOOT_PRELOAD,
+        DRIVE_SHOOT_END,
 
     }
 
@@ -30,32 +31,46 @@ public class pedroPathTest extends OpMode {
     private final Pose startPose = new Pose(20.38620, 122.3978, Math.toRadians(138.0));
     private final Pose shootPose = new Pose(46.415, 96.900, Math.toRadians(138.0));
 
-    private PathChain driveStartPosShootPos;
+    private final Pose endPose = new Pose(63.765, 105.75355, Math.toRadians(90));
+
+
+    private PathChain driveStartShoot, driveShootEnd;
 
     public void buildPaths(){
         // put in coordinates for starting pose > ending pose
-        driveStartPosShootPos = follower.pathBuilder()
+        driveStartShoot = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, shootPose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), shootPose.getHeading())
+                .build();
+
+        driveShootEnd = follower.pathBuilder()
+                .addPath(new BezierLine(shootPose, endPose))
+                .setLinearHeadingInterpolation(shootPose.getHeading(), endPose.getHeading())
                 .build();
     }
 
     public void statePathUpdate(){
         switch(pathState){
-            case DRIVE_STARTPOS_SHOOT_POS:
-                follower.followPath(driveStartPosShootPos, true);
+            case DRIVE_START_SHOOT:
+                follower.followPath(driveStartShoot, true);
                 setPathState(PathState.SHOOT_PRELOAD); // Reset timer and make new state
                 break;
             case SHOOT_PRELOAD:
 
                 // check is follower done its path?
-                if (!follower.isBusy()){
-                    // TODO add logic to shooter
-                    telemetry.addLine("Done Path 1");
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds()>5){
+                    follower.followPath(driveShootEnd, true);
+                    setPathState(PathState.DRIVE_SHOOT_END);
                     // transition to next state
                 }
                 break;
 
+            case DRIVE_SHOOT_END:
+                // All done
+                if (!follower.isBusy()){
+                    telemetry.addLine("Done all paths");
+                }
+                break;
             default:
                 telemetry.addLine("No State Commanded");
         }
@@ -69,7 +84,7 @@ public class pedroPathTest extends OpMode {
     @Override
     public void init(){
 
-        pathState = PathState.DRIVE_STARTPOS_SHOOT_POS;
+        pathState = PathState.DRIVE_START_SHOOT;
         pathTimer = new Timer();
         opModeTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
