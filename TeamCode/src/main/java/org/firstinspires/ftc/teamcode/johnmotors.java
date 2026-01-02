@@ -19,7 +19,7 @@ public class johnmotors extends LinearOpMode {
  private DcMotor backLeftDrive = null;
  private DcMotor frontRightDrive = null;
  private DcMotor backRightDrive = null;
- private MecanumDrive drive = new MecanumDrive();
+
 
 
 
@@ -27,7 +27,6 @@ public class johnmotors extends LinearOpMode {
  @Override
  public void runOpMode() {
 //
-     drive.init(hardwareMap, telemetry);
 
 
      // Initialize the hardware variables. Note that the strings used here must correspond
@@ -63,21 +62,9 @@ public class johnmotors extends LinearOpMode {
 
      // run until the end of the match (driver presses STOP)
      while (opModeIsActive()) {
-         double max;
 
-         // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-         double forward   = -gamepad1.right_stick_y;  // Note: pushing stick forward gives negative value
-         if (gamepad1.dpad_up) {
-             forward = 1.0;
-         }
 
-         else if (gamepad1.dpad_down) {
-             forward = -1.0;
-         }
-         double strafe =  gamepad1.right_stick_x;
-         double rotation = (gamepad1.dpad_right ? 1.0 : 0.0)  - (gamepad1.dpad_left ? 1.0 : 0.0);
 
-         drive.driveFieldRelative(forward, strafe, rotation);
          // ArrayList<Double> new_numbers = driveFieldRelative(forward, strafe, rotation);
          // forward = new_numbers.get(0);
          // strafe = new_numbers.get(1);
@@ -86,7 +73,10 @@ public class johnmotors extends LinearOpMode {
          // Combine the joystick requests for each axis-motion to determine each wheel's power.
          // Set up a variable for each drive wheel to save the power level for telemetry.
 
-
+         frontLeftDrive.setPower(1.0);
+         backLeftDrive.setPower(1.0);
+         frontRightDrive.setPower(1.0);
+         backRightDrive.setPower(1.0);
 
 
 

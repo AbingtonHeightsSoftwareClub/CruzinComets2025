@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
+import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -23,9 +24,10 @@ public class Constants {
     public static final double COUNTS_PER_WHEEL_REV = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
     public static final double COUNTS_PER_MM = COUNTS_PER_MOTOR_REV / WHEEL_CIRCUMFERENCE_MM;
 
-    public static FollowerConstants followerConstants = new FollowerConstants().mass(6).forwardZeroPowerAcceleration(-11253.86).lateralZeroPowerAcceleration(-75.0);
+    public static FollowerConstants followerConstants = new FollowerConstants().mass(6).forwardZeroPowerAcceleration(-35.0).lateralZeroPowerAcceleration(-53.0).headingPIDFCoefficients(new PIDFCoefficients(0.01, 0.025, 0, 0.6)).translationalPIDFCoefficients(new PIDFCoefficients(0, 0.025, 0, 0.1));
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
+
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
@@ -37,8 +39,8 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .xVelocity(70.0)
-            .yVelocity(50.0);
+            .xVelocity(67.0)
+            .yVelocity(58.9);
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .forwardPodY(-(1/2.54)*(3.6+17))
