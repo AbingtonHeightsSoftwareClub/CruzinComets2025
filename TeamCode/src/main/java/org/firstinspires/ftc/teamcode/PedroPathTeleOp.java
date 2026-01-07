@@ -59,12 +59,12 @@ public class PedroPathTeleOp extends OpMode {
         follower.update();
         telemetryM.update();
 
-        forward = (gamepad1.dpad_up ? 1.0: 0.0 )- (gamepad1.dpad_down ? 1.0: 0.0) - gamepad1.left_stick_y;
+        forward = -gamepad1.left_stick_y;
         strafe = -gamepad1.left_stick_x ;
         rotate = -gamepad1.right_stick_x;
 
 
-        if (!automatedDrive) {
+
             //Make the last parameter false for field-centric
             //In case the drivers want to use a "slowMode" you can scale the vectors
 
@@ -73,29 +73,19 @@ public class PedroPathTeleOp extends OpMode {
                     forward,
                     strafe,
                     rotate,
-                    true // Robot Centric
+                    false // Robot Centric
             );
 
                 //This is how it looks with slowMode on
             else follower.setTeleOpDrive(
-                    forward * slowModeMultiplier,
-                    strafe * slowModeMultiplier,
-                    rotate * slowModeMultiplier,
-                    true // Robot Centric
+                    forward * 0.3,
+                    strafe * 0.3,
+                    rotate * 0.5,
+                    false // Robot Centric
             );
-        }
 
-        //Automated PathFollowing
-        if (gamepad1.aWasPressed()) {
-            follower.followPath(pathChain.get());
-            automatedDrive = true;
-        }
 
-        //Stop automated following if the follower is done
-        if (automatedDrive && (gamepad1.bWasPressed() || !follower.isBusy())) {
-            follower.startTeleopDrive();
-            automatedDrive = false;
-        }
+
 
         //Slow Mode
         if (gamepad1.rightBumperWasPressed()) {
@@ -115,5 +105,6 @@ public class PedroPathTeleOp extends OpMode {
         telemetryM.debug("position", follower.getPose());
         telemetryM.debug("velocity", follower.getVelocity());
         telemetryM.debug("automatedDrive", automatedDrive);
+        telemetry.addData("Slowmode", slowMode);
     }
 }

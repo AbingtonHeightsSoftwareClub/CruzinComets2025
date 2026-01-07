@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.PwmControl;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoController;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.mechanisms.ServoMechanics;
 
@@ -9,30 +13,27 @@ import org.firstinspires.ftc.teamcode.mechanisms.ServoMechanics;
 public class ServoTesting extends OpMode {
 
     ServoMechanics bench = new ServoMechanics();
+    private ServoImplEx extendableRod;
 
     @Override
     public void init() {
-        bench.init(hardwareMap);
+
+        extendableRod=hardwareMap.get(ServoImplEx.class, "linear");
+        extendableRod.setPwmEnable();
+
     }
 
     @Override
     public void loop() {
         if(gamepad1.a) {
-            bench.setServoRotation(bench.getServoRotation() + .1);
-            bench.extendRod(1.0);
+            extendableRod.setPwmRange(new PwmControl.PwmRange(0.5, 0.6));
+
         }
 
-        else {
-            bench.setServoRotation(bench.getServoRotation());
-        }
 
-        if(gamepad1.b) {
-            bench.setServoRotation(bench.getServoRotation() - .1);
-        }
 
-        else {
-            bench.setServoRotation(bench.getServoRotation());
-        }
+        telemetry.addData("Data", extendableRod.getPwmRange());
+
     }
 
 }

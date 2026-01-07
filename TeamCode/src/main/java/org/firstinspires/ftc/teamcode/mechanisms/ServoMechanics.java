@@ -8,8 +8,8 @@ public class ServoMechanics {
     private Servo extendableRod;
 
     public void init(HardwareMap hardwareMap) {
-        servoRotation = hardwareMap.get(CRServo.class, "TuffServoOne");
-        extendableRod = hardwareMap.get(Servo.class, "TuffLinearServo");
+//        servoRotation = hardwareMap.get(CRServo.class, "TuffServoOne");
+        extendableRod = hardwareMap.get(Servo.class, "linear");
     }
 
     public CRServo getWheelThing() { return servoRotation; }

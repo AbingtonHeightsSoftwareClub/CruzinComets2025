@@ -28,10 +28,9 @@ public class pedroPathTest extends OpMode {
 
     PathState pathState;
 
-    private final Pose startPose = new Pose(20.38620, 122.3978, Math.toRadians(138.0));
-    private final Pose shootPose = new Pose(46.415, 96.900, Math.toRadians(138.0));
+    private final Pose startPose = new Pose(0, 0, Math.toRadians(0));
+    private final Pose shootPose = new Pose(20, 20, Math.toRadians(0));
 
-    private final Pose endPose = new Pose(63.765, 105.75355, Math.toRadians(90));
 
 
     private PathChain driveStartShoot, driveShootEnd;
@@ -43,10 +42,7 @@ public class pedroPathTest extends OpMode {
                 .setLinearHeadingInterpolation(startPose.getHeading(), shootPose.getHeading())
                 .build();
 
-        driveShootEnd = follower.pathBuilder()
-                .addPath(new BezierLine(shootPose, endPose))
-                .setLinearHeadingInterpolation(shootPose.getHeading(), endPose.getHeading())
-                .build();
+
     }
 
     public void statePathUpdate(){
