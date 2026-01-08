@@ -24,7 +24,11 @@ public class Constants {
     public static final double COUNTS_PER_WHEEL_REV = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
     public static final double COUNTS_PER_MM = COUNTS_PER_MOTOR_REV / WHEEL_CIRCUMFERENCE_MM;
 
-    public static FollowerConstants followerConstants = new FollowerConstants().mass(6).forwardZeroPowerAcceleration(-35.0).lateralZeroPowerAcceleration(-53.0).headingPIDFCoefficients(new PIDFCoefficients(0.01, 0.025, 0, 0.6)).translationalPIDFCoefficients(new PIDFCoefficients(0, 0.025, 0, 0.1));
+    public static FollowerConstants followerConstants = new FollowerConstants().mass(6)
+            .forwardZeroPowerAcceleration(-35.0)
+            .lateralZeroPowerAcceleration(-53.0)
+            .headingPIDFCoefficients(new PIDFCoefficients(2.0, 0.0, 0.1, 0.032))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.005, 0.022));
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
 

@@ -6,106 +6,154 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
 
-@TeleOp
+@Autonomous(name = "Example Auto", group = "Examples")
 public class pedroPathTest extends OpMode {
+
+
     private Follower follower;
-    private Timer pathTimer, opModeTimer;
-
-    public enum PathState {
-        // START POSITION_END POSITION
-        // DRIVE > MOVEMENT STATE
-        // SHOOT > ATTEMPT TO SCORE THE ARTIFACT
-        DRIVE_START_SHOOT,
-        SHOOT_PRELOAD,
-        DRIVE_SHOOT_END,
-
-    }
-
-    PathState pathState;
-
-    private final Pose startPose = new Pose(0, 0, Math.toRadians(0));
-    private final Pose shootPose = new Pose(20, 20, Math.toRadians(0));
+    private Timer pathTimer, actionTimer, opmodeTimer;
+    private int pathState;
 
 
+    public PathChain line1;
+    public PathChain Path2;
+    public PathChain Path3;
+    public PathChain Path4;
 
-    private PathChain driveStartShoot, driveShootEnd;
 
-    public void buildPaths(){
-        // put in coordinates for starting pose > ending pose
-        driveStartShoot = follower.pathBuilder()
-                .addPath(new BezierLine(startPose, shootPose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), shootPose.getHeading())
+    public void buildPaths() {
+        line1 = follower.pathBuilder().addPath(
+                        new BezierLine(
+                                new Pose(71.527, 9.276),
+
+                                new Pose(71.527, 9.276)
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(90))
+
                 .build();
 
+        Path2 = follower.pathBuilder().addPath(
+                        new BezierLine(
+                                new Pose(71.527, 9.276),
+
+                                new Pose(47.631, 58.576)
+                        )
+                ).setTangentHeadingInterpolation()
+
+                .build();
+
+        Path3 = follower.pathBuilder().addPath(
+                        new BezierLine(
+                                new Pose(47.631, 58.576),
+
+                                new Pose(95.968, 58.468)
+                        )
+                ).setTangentHeadingInterpolation()
+
+                .build();
+
+        Path4 = follower.pathBuilder().addPath(
+                        new BezierLine(
+                                new Pose(95.968, 58.468),
+
+                                new Pose(71.527, 9.276)
+                        )
+                ).setTangentHeadingInterpolation()
+                .build();
 
     }
 
-    public void statePathUpdate(){
-        switch(pathState){
-            case DRIVE_START_SHOOT:
-                follower.followPath(driveStartShoot, true);
-                setPathState(PathState.SHOOT_PRELOAD); // Reset timer and make new state
-                break;
-            case SHOOT_PRELOAD:
 
-                // check is follower done its path?
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds()>5){
-                    follower.followPath(driveShootEnd, true);
-                    setPathState(PathState.DRIVE_SHOOT_END);
-                    // transition to next state
+    public void autonomousPathUpdate() {
+
+        switch (pathState) {
+            case 0:
+                follower.followPath(line1);
+                setPathState(1);
+                break;
+            case 1:
+            /* You could check for
+            - Follower State: "if(!follower.isBusy()) {}"
+            - Time: "if(pathTimer.getElapsedTimeSeconds() > 1) {}"
+            - Robot Position: "if(follower.getPose().getX() > 36) {}"
+            */
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                if (!follower.isBusy()) {
+                    /* Score Preload */
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                    follower.followPath(Path2);
+                    setPathState(2);
+                }
+                break;
+            case 2:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
+                if (!follower.isBusy()) {
+                    /* Grab Sample */
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+                    follower.followPath(Path3);
+                    setPathState(3);
                 }
                 break;
 
-            case DRIVE_SHOOT_END:
-                // All done
-                if (!follower.isBusy()){
-                    telemetry.addLine("Done all paths");
+            case 3:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
+                if (!follower.isBusy()) {
+                    /* Grab Sample */
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+                    follower.followPath(Path4);
+                    setPathState(0);
                 }
                 break;
-            default:
-                telemetry.addLine("No State Commanded");
+
         }
     }
 
-    public void setPathState(PathState newState){
-        pathState = newState;
+    /**
+     * These change the states of the paths and actions. It will also reset the timers of the individual switches
+     **/
+    public void setPathState(int pState) {
+        pathState = pState;
         pathTimer.resetTimer();
     }
 
-    @Override
-    public void init(){
 
-        pathState = PathState.DRIVE_START_SHOOT;
+    @Override
+    public void init() {
+
         pathTimer = new Timer();
-        opModeTimer = new Timer();
+        opmodeTimer = new Timer();
+        opmodeTimer.resetTimer();
         follower = Constants.createFollower(hardwareMap);
-        // TODO add in any other init mechanisms
         buildPaths();
-        follower.setPose(startPose);
+        follower.setStartingPose(new Pose(71.527, 9.276, Math.toRadians(90)));
 
 
     }
+
     @Override
-    public void start(){
-        opModeTimer.resetTimer();
-        setPathState(pathState);
+    public void start() {
+        opmodeTimer.resetTimer();
+        setPathState(0);
     }
 
     @Override
-    public void loop(){
+    public void loop() {
+        // These loop the movements of the robot, these must be called continuously in order to work
         follower.update();
-        statePathUpdate();
-
-        telemetry.addData("Path State", pathState.toString());
+        autonomousPathUpdate();
+        // Feedback to Driver Hub for debugging
+        telemetry.addData("path state", pathState);
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", follower.getPose().getHeading());
-        telemetry.addData("Path Time", pathTimer.getElapsedTimeSeconds());
+        telemetry.update();
+
     }
+
 
 }
