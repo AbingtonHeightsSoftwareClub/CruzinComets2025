@@ -30,7 +30,7 @@ public class Constants {
             .headingPIDFCoefficients(new PIDFCoefficients(2.0, 0.0, 0.1, 0.032))
             .translationalPIDFCoefficients(new PIDFCoefficients(0.3, 0, 0.005, 0.022));
 
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1.5, 1);
 
 
     public static MecanumConstants driveConstants = new MecanumConstants()

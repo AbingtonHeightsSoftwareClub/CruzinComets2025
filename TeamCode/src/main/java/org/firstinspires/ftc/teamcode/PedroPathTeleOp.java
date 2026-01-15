@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
+import org.firstinspires.ftc.teamcode.mechanisms.Shooter;
+import org.firstinspires.ftc.teamcode.mechanisms.Intake;
 
 import java.util.function.Supplier;
 
@@ -31,6 +33,9 @@ public class PedroPathTeleOp extends OpMode {
     private double forward;
     private double rotate;
 
+    private final Shooter shooter = new Shooter();
+    private final Intake intake = new Intake();
+
 
     @Override
     public void init() {
@@ -43,6 +48,11 @@ public class PedroPathTeleOp extends OpMode {
                 .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98))))
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
+
+        shooter.init(hardwareMap, gamepad1);
+        intake.init(hardwareMap, gamepad1);
+
+
     }
 
     @Override
@@ -58,6 +68,9 @@ public class PedroPathTeleOp extends OpMode {
         //Call this once per loop
         follower.update();
         telemetryM.update();
+        shooter.update();
+        intake.update();
+
 
         forward = -gamepad1.left_stick_y;
         strafe = -gamepad1.left_stick_x ;
@@ -98,9 +111,10 @@ public class PedroPathTeleOp extends OpMode {
         }
 
         //Optional way to change slow mode strength
-        if (gamepad2.yWasPressed()) {
+        if (gamepad1.yWasPressed()) {
             slowModeMultiplier -= 0.25;
         }
+
 
         telemetryM.debug("position", follower.getPose());
         telemetryM.debug("velocity", follower.getVelocity());

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -20,28 +21,30 @@ public class pedroPathTest extends OpMode {
     private int pathState;
 
 
-    public PathChain line1;
+    public PathChain Path1;
     public PathChain Path2;
     public PathChain Path3;
     public PathChain Path4;
+    public PathChain Path5;
 
 
     public void buildPaths() {
-        line1 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(71.527, 9.276),
-
-                                new Pose(71.527, 9.276)
+        Path1 = follower.pathBuilder().addPath(
+                        new BezierCurve(
+                                new Pose(77.270, 11.403),
+                                new Pose(77.078, 39.761),
+                                new Pose(47.066, 30.470)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(90))
+                ).setTangentHeadingInterpolation()
 
                 .build();
 
         Path2 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(71.527, 9.276),
-
-                                new Pose(47.631, 58.576)
+                        new BezierCurve(
+                                new Pose(47.066, 30.470),
+                                new Pose(17.353, 22.801),
+                                new Pose(8.866, 43.029),
+                                new Pose(26.904, 73.585)
                         )
                 ).setTangentHeadingInterpolation()
 
@@ -49,9 +52,9 @@ public class pedroPathTest extends OpMode {
 
         Path3 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(47.631, 58.576),
+                                new Pose(26.904, 73.585),
 
-                                new Pose(95.968, 58.468)
+                                new Pose(55.111, 72.253)
                         )
                 ).setTangentHeadingInterpolation()
 
@@ -59,13 +62,13 @@ public class pedroPathTest extends OpMode {
 
         Path4 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(95.968, 58.468),
+                                new Pose(55.111, 72.253),
 
-                                new Pose(71.527, 9.276)
+                                new Pose(48.069, 33.456)
                         )
                 ).setTangentHeadingInterpolation()
-                .build();
 
+                .build();
     }
 
 
@@ -73,7 +76,7 @@ public class pedroPathTest extends OpMode {
 
         switch (pathState) {
             case 0:
-                follower.followPath(line1);
+                follower.followPath(Path1);
                 setPathState(1);
                 break;
             case 1:
@@ -106,9 +109,14 @@ public class pedroPathTest extends OpMode {
                     /* Grab Sample */
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(Path4);
-                    setPathState(0);
+                    setPathState(-1);
                 }
                 break;
+            case 4:
+                if (!follower.isBusy()){
+                    follower.followPath(Path5);
+                    setPathState(-1);
+                }
 
         }
     }
@@ -130,7 +138,7 @@ public class pedroPathTest extends OpMode {
         opmodeTimer.resetTimer();
         follower = Constants.createFollower(hardwareMap);
         buildPaths();
-        follower.setStartingPose(new Pose(71.527, 9.276, Math.toRadians(90)));
+        follower.setStartingPose(new Pose(77.27031019202362, 11.403249630723794, Math.toRadians(91)));
 
 
     }

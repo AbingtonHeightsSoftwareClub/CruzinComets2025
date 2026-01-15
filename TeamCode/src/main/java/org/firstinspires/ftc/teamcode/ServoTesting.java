@@ -13,26 +13,34 @@ import org.firstinspires.ftc.teamcode.mechanisms.ServoMechanics;
 public class ServoTesting extends OpMode {
 
     ServoMechanics bench = new ServoMechanics();
-    private ServoImplEx extendableRod;
+    private double angle;
+
+
 
     @Override
     public void init() {
 
-        extendableRod=hardwareMap.get(ServoImplEx.class, "linear");
-        extendableRod.setPwmEnable();
+        bench.init(hardwareMap);
+        angle = -1.0;
+
+
 
     }
 
     @Override
     public void loop() {
-        if(gamepad1.a) {
-            extendableRod.setPwmRange(new PwmControl.PwmRange(0.5, 0.6));
+            if (gamepad1.a){
+                bench.setServoRotation(1.0);
+            }else if (gamepad1.b){
+                bench.setServoRotation(-1.0);
+            }
 
-        }
 
 
 
-        telemetry.addData("Data", extendableRod.getPwmRange());
+
+
+        telemetry.addData("Data", bench.getServoRotation());
 
     }
 

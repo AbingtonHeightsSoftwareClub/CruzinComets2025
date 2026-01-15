@@ -4,30 +4,25 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ServoMechanics {
-    private CRServo servoRotation;
+    private Servo servoRotation;
     private Servo extendableRod;
 
     public void init(HardwareMap hardwareMap) {
-//        servoRotation = hardwareMap.get(CRServo.class, "TuffServoOne");
-        extendableRod = hardwareMap.get(Servo.class, "linear");
+        servoRotation = hardwareMap.get(Servo.class, "Servo");
     }
 
-    public CRServo getWheelThing() { return servoRotation; }
-    public Servo getExtendableRod() { return extendableRod; }
+    public Servo getRotationObject() { return servoRotation; }
+
 
     public double setServoRotation(double power) {
-        double previousPower = servoRotation.getPower();
-        servoRotation.setPower(power);
+        double previousPower = servoRotation.getPosition();
+        servoRotation.setPosition(power);
+
         return previousPower;
     }
 
-    public double extendRod(double size) {
-        double previousLength = extendableRod.getPosition();
-        extendableRod.setPosition(size);
-        return previousLength;
-    }
 
     public double getServoRotation() {
-        return servoRotation.getPower();
+        return servoRotation.getPosition();
     }
 }

@@ -40,10 +40,10 @@ import org.firstinspires.ftc.teamcode.mechanisms.Constants;
 public class IntakeWheel extends OpMode {
     /* Declare OpMode members. */
     
-    DcMotorEx intakeWheel;
-    DcMotor hoodWheel;
+    DcMotor intakeWheel;
+//    DcMotor hoodWheel;
 
-    DcMotor brushWheel;
+//    DcMotor brushWheel;
     double TPS;
     int wheeltarget;
     double  max_speed;
@@ -51,12 +51,11 @@ public class IntakeWheel extends OpMode {
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
-        intakeWheel = hardwareMap.get(DcMotorEx.class, "intake_wheel");
-        hoodWheel = hardwareMap.get(DcMotor.class, "hood");
-        brushWheel = hardwareMap.get(DcMotor.class, "brush");
+        intakeWheel = hardwareMap.get(DcMotor.class, "intake_wheel");
+//        hoodWheel = hardwareMap.get(DcMotor.class, "hood");
+//        brushWheel = hardwareMap.get(DcMotor.class, "brush");
 
 
-        intakeWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         wheeltarget = (int) (610 * Constants.COUNTS_PER_MM);
@@ -84,10 +83,6 @@ public class IntakeWheel extends OpMode {
     public void start() {
 
 
-        intakeWheel.setTargetPosition(wheeltarget);
-
-        intakeWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
 
     }
 
@@ -99,44 +94,10 @@ public class IntakeWheel extends OpMode {
 
 
         if (gamepad1.y){
-            intakeWheel.setVelocity(max_speed);
+            intakeWheel.setPower(1.0);
         }
 
-        else if (gamepad1.b){
-            intakeWheel.setVelocity(max_speed * 0.8);
-        }
 
-        else if (gamepad1.a){
-            intakeWheel.setVelocity(max_speed * 0.7);
-        }
-
-        else if (gamepad1.x){
-            intakeWheel.setVelocity(max_speed * 0.6);
-        }
-
-        else {
-            intakeWheel.setVelocity(0.0);
-        }
-
-        if (gamepad1.dpad_up){
-            hoodWheel.setPower(0.01);
-        }
-
-        else if (gamepad1.dpad_down){
-            hoodWheel.setPower(-0.01);
-        }
-
-        else{
-            hoodWheel.setPower(0);
-        }
-
-        if(gamepad1.right_trigger > 0) {
-            brushWheel.setPower(1);
-        }
-
-        else {
-            brushWheel.setPower(0);
-        }
 
     }
 
@@ -146,7 +107,7 @@ public class IntakeWheel extends OpMode {
     @Override
     public void stop() {
         intakeWheel.setPower(0.0);
-        brushWheel.setPower(0);
-        hoodWheel.setPower(0);
+//        brushWheel.setPower(0);
+//        hoodWheel.setPower(0);
     }
 }
