@@ -1,7 +1,4 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
-
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -16,6 +13,9 @@ public class Shooter {
         shooter = hwMap.get(DcMotorEx.class, "shooter");
         gamepad=gamepad1;
 
+        shooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
     }
 
     public void update(){
@@ -24,10 +24,10 @@ public class Shooter {
         }
 
         if (shooter_on){
-            shooter.setPower(0.8);
+            shooter.setVelocity(2800.0);
 
         }else{
-            shooter.setPower(0.0);
+            shooter.setPower(0);
         }
         right_bumper_Pressed_LastCycle=gamepad.right_bumper;
     }

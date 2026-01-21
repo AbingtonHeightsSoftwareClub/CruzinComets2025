@@ -41,6 +41,6 @@ public class nextFTCtest extends NextFTCOpMode {
 
     @Override
     public void onUpdate(){
-        
+
     }
 }
