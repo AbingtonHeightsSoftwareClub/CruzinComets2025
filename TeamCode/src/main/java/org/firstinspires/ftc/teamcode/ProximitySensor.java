@@ -1,25 +1,30 @@
 package org.firstinspires.ftc.teamcode;
 
 
-
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.mechanisms.Constants;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 @TeleOp
-public class LinearActuator extends OpMode {
+public class ProximitySensor extends OpMode {
     /* Declare OpMode members. */
 
-    Servo linear;
-
+    private ColorSensor colorSensor;
+    private int count;
 
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
-        linear = hardwareMap.get(Servo.class, "linear");
+        colorSensor = hardwareMap.colorSensor.get("proximity");
+        count=0;
 //        hoodWheel = hardwareMap.get(DcMotor.class, "hood");
 //        brushWheel = hardwareMap.get(DcMotor.class, "brush");
 
@@ -43,7 +48,6 @@ public class LinearActuator extends OpMode {
     public void start() {
 
 
-
     }
 
     /*
@@ -53,23 +57,25 @@ public class LinearActuator extends OpMode {
     public void loop() {
 
 
-        if (gamepad1.yWasPressed()){
-            linear.setPosition(1.0);
-        }else if (gamepad1.aWasPressed()){
-            linear.setPosition(0.0);
-        }
-        telemetry.addData("position", linear.getPosition());
+        if (colorSensor instanceof DistanceSensor) {
+            count+=1;
 
+           telemetry.addData("Sensor",((DistanceSensor) colorSensor).getDistance(DistanceUnit.CM));
+           telemetry.addData("Count",count);
+
+
+
+        }
 
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop() {
+        /*
+         * Code to run ONCE after the driver hits STOP
+         */
+        @Override
+        public void stop () {
 
 //        brushWheel.setPower(0);
 //        hoodWheel.setPower(0);
+        }
     }
-}
