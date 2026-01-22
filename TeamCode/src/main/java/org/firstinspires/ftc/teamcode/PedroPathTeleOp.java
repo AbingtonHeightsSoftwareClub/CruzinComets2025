@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
 import org.firstinspires.ftc.teamcode.mechanisms.Shooter;
 import org.firstinspires.ftc.teamcode.mechanisms.Intake;
+import org.firstinspires.ftc.teamcode.mechanisms.Storage;
 
 import java.util.function.Supplier;
 
@@ -35,6 +36,7 @@ public class PedroPathTeleOp extends OpMode {
 
     private final Shooter shooter = new Shooter();
     private final Intake intake = new Intake();
+    private final Storage storage = new Storage();
 
 
     @Override
@@ -50,7 +52,9 @@ public class PedroPathTeleOp extends OpMode {
                 .build();
 
         shooter.init(hardwareMap, gamepad1);
-        intake.init(hardwareMap, gamepad1);
+        intake.init(hardwareMap, gamepad1, telemetry);
+        storage.init(hardwareMap, gamepad1, telemetry);
+
 
 
     }
