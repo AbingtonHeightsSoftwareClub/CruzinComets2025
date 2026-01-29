@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ServoMechanics {
-    private Servo servoRotation;
+    private CRServo servoRotation;
 
 
-    public void init(HardwareMap hardwareMap) {
-        servoRotation = hardwareMap.get(Servo.class, "storage_servo");
+    public void init(HardwareMap hardwareMap, String name) {
+        servoRotation = hardwareMap.get(CRServo.class, name);
     }
 
-    public Servo getRotationObject() { return servoRotation; }
+//    public Servo getRotationObject() { return servoRotation; }
 
 
     public void setServoRotation(double angle) {
@@ -20,12 +21,12 @@ public class ServoMechanics {
         double power = angle/145.0-1.0;
 
 
-        servoRotation.setPosition(power);
+        servoRotation.setPower(angle);
 
     }
 
 
     public double getServoRotation() {
-        return servoRotation.getPosition();
+        return servoRotation.getPower();
     }
 }

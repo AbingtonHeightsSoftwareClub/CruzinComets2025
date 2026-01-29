@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
+import org.firstinspires.ftc.teamcode.mechanisms.Flipper;
 import org.firstinspires.ftc.teamcode.mechanisms.Shooter;
 import org.firstinspires.ftc.teamcode.mechanisms.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.Storage;
@@ -37,6 +38,7 @@ public class PedroPathTeleOp extends OpMode {
     private final Shooter shooter = new Shooter();
     private final Intake intake = new Intake();
     private final Storage storage = new Storage();
+    private final Flipper flipper = new Flipper();
 
 
     @Override
@@ -52,8 +54,10 @@ public class PedroPathTeleOp extends OpMode {
                 .build();
 
         shooter.init(hardwareMap, gamepad1);
+        flipper.init(hardwareMap, gamepad1, telemetry);
         intake.init(hardwareMap, gamepad1, telemetry);
-        storage.init(hardwareMap, gamepad1, telemetry);
+
+//        storage.init(hardwareMap, gamepad1, telemetry);
 
 
 
@@ -73,6 +77,7 @@ public class PedroPathTeleOp extends OpMode {
         follower.update();
         telemetryM.update();
         shooter.update();
+        flipper.update();
         intake.update();
 
 

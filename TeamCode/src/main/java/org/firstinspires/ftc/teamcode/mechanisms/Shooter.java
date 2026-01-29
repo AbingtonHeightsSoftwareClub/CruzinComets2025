@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -12,7 +13,7 @@ public class Shooter {
     public void init(HardwareMap hwMap, Gamepad gamepad1){
         shooter = hwMap.get(DcMotorEx.class, "shooter");
         gamepad=gamepad1;
-
+        shooter.setDirection(DcMotorEx.Direction.REVERSE);
         shooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
