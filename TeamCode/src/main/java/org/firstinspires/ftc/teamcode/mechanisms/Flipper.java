@@ -10,34 +10,27 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Flipper {
-    private final ServoMechanics storage_servo = new ServoMechanics();
+
     private Gamepad gamepad;
     private Telemetry telemetry;
-    private double angle;
+    private ServoMechanics servo = new ServoMechanics();
 
 
     public void init(HardwareMap hwMap, Gamepad gamepad1, Telemetry main_telemetry) {
-        storage_servo.init(hwMap, "flipper");
+        servo.init(hwMap, "spoon");
+        servo.setServoRotation(290.0);
         gamepad = gamepad1;
         telemetry = main_telemetry;
-        angle = 0.0;
+
     }
 
     public void update() {
-        storage_servo.setServoRotation(1.0);
-        if (gamepad.xWasPressed()){
-
-
-            angle+=5;
+        if (gamepad.bWasPressed()){
+            servo.setServoRotation(240.0);
+        } else if (gamepad.xWasPressed()){
+            servo.setServoRotation(290.0);
         }
-
-//        if (storage_servo.getServoRotation()==30.0){
-//            storage_servo.setServoRotation(0.0);
-//        }
-
-
-        telemetry.addData("Angling Angle: ", storage_servo.getServoRotation());
-        telemetry.addData(" Angle: ", angle);
+        telemetry.addData("Angle", servo.getServoRotation());
 
     }
 }

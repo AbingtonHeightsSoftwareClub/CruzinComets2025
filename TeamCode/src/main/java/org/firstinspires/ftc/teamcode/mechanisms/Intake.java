@@ -33,7 +33,7 @@ public class Intake {
     }
 
     public void update(){
-        if (gamepad.bWasPressed()){
+        if (gamepad.dpadUpWasPressed()){
             intake_on= !intake_on;
         }
 

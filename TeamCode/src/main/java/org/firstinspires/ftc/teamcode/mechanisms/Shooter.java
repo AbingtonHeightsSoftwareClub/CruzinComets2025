@@ -25,7 +25,7 @@ public class Shooter {
         }
 
         if (shooter_on){
-            shooter.setVelocity(2800.0);
+            shooter.setVelocity(3500.0);
 
         }else{
             shooter.setPower(0);

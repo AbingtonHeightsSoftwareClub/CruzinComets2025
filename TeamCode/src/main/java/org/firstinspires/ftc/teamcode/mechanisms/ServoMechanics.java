@@ -1,32 +1,36 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ServoMechanics {
-    private CRServo servoRotation;
+    private Servo servoRotation;
 
 
     public void init(HardwareMap hardwareMap, String name) {
-        servoRotation = hardwareMap.get(CRServo.class, name);
+        servoRotation = hardwareMap.get(Servo.class, name);
     }
 
-//    public Servo getRotationObject() { return servoRotation; }
+    public Servo getRotationObject() { return servoRotation; }
 
 
     public void setServoRotation(double angle) {
         // 0 to 290
         // -1 to 1
+        if (angle>290.0){
+            angle=290.0;
+        }else if (angle<0.0){
+            angle=0.0;
+        }
+        double power = angle/290.0;
 
-        double power = angle/145.0-1.0;
 
+        servoRotation.setPosition(power);
 
-        servoRotation.setPower(angle);
 
     }
 
 
     public double getServoRotation() {
-        return servoRotation.getPower();
+        return servoRotation.getPosition();
     }
 }

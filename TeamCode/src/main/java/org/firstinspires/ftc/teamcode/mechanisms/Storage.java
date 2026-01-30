@@ -26,7 +26,7 @@ public class Storage {
 
     public void update() {
 
-        if (gamepad.yWasPressed()){
+        if (gamepad.dpadUpWasPressed()){
             ball_state+=1.0;
             if (ball_state>3.0){
                 ball_state=1.0;
