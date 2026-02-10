@@ -20,14 +20,14 @@ public class Hood {
 
     public void update() {
 
-        if (gamepad.yWasPressed()){
+        if (gamepad.dpadUpWasPressed()){
             angle+=10;
             if (angle>290.0){
                 angle=290.0;
             }
             hood_servo.setServoRotation(angle);
         }
-        else if (gamepad.aWasPressed()){
+        else if (gamepad.dpadDownWasPressed()){
             angle-=10;
             if (angle<0){
                 angle=0;

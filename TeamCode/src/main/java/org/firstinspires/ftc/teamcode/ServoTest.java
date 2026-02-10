@@ -15,14 +15,13 @@ import org.firstinspires.ftc.teamcode.mechanisms.ServoMechanics;
 
 @TeleOp
 public class ServoTest extends OpMode {
-    private ServoMechanics servo = new ServoMechanics();
+    private CRServo test_servo;
 
 
     @Override
     public void init() {
 
-        servo.init(hardwareMap, "spoon");
-        servo.setServoRotation(290.0);
+        test_servo = hardwareMap.get(CRServo.class, "test_servo");
 
     }
 
@@ -33,12 +32,7 @@ public class ServoTest extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.bWasPressed()){
-            servo.setServoRotation(240.0);
-        } else if (gamepad1.xWasPressed()){
-            servo.setServoRotation(290.0);
-        }
-        telemetry.addData("Angle", servo.getServoRotation());
+        test_servo.setPower(1.0);
 
     }
 }

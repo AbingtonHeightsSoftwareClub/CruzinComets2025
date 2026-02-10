@@ -17,7 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Constants {
     public static final double MAX_POWER = 1.0;
     public static final double MAX_SPEED = 6.0*28.0;
-    
     public static final double COUNTS_PER_MOTOR_REV = 28.0;
     public static final double DRIVE_GEAR_REDUCTION = 3.7;
     public static final double WHEEL_CIRCUMFERENCE_MM = 104 * 3.14;
@@ -41,8 +40,8 @@ public class Constants {
             .leftFrontMotorName("front_left_drive")
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .xVelocity(67.0)
             .yVelocity(58.9);
 

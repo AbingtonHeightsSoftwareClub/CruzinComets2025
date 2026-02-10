@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Shooter {
     private DcMotorEx shooter;
     private boolean shooter_on = false;
-    boolean right_bumper_Pressed_LastCycle = false; // Tracks the button's previous state
+
+
     private Gamepad gamepad;
 
     public void init(HardwareMap hwMap, Gamepad gamepad1){
@@ -20,17 +21,17 @@ public class Shooter {
     }
 
     public void update(){
-        if (gamepad.right_bumper && !right_bumper_Pressed_LastCycle){
+        if (gamepad.right_bumper){
             shooter_on = !shooter_on;
         }
 
         if (shooter_on){
-            shooter.setVelocity(3500.0);
+            shooter.setVelocity(2800.0);
 
         }else{
             shooter.setPower(0);
         }
-        right_bumper_Pressed_LastCycle=gamepad.right_bumper;
+
     }
 
 }

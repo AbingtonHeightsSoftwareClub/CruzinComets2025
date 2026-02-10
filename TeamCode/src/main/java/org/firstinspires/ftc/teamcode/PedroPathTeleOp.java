@@ -38,8 +38,9 @@ public class PedroPathTeleOp extends OpMode {
 
     private final Shooter shooter = new Shooter();
     private final Intake intake = new Intake();
-    private final Flipper flipper = new Flipper();
+
     private final Hood hood = new Hood();
+    private final Storage storage = new Storage();
 
 
     @Override
@@ -55,11 +56,11 @@ public class PedroPathTeleOp extends OpMode {
                 .build();
 
         shooter.init(hardwareMap, gamepad1);
-        flipper.init(hardwareMap, gamepad1, telemetry);
         intake.init(hardwareMap, gamepad1, telemetry);
         hood.init(hardwareMap, gamepad1, telemetry);
+        storage.init(hardwareMap, gamepad1, telemetry);
 
-//        storage.init(hardwareMap, gamepad1, telemetry);
+
 
 
 
@@ -75,11 +76,12 @@ public class PedroPathTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        //Call this once per loop
+        storage.update();
+
+//        //Call this once per loop
         follower.update();
         telemetryM.update();
         shooter.update();
-        flipper.update();
         intake.update();
         hood.update();
 
@@ -108,26 +110,26 @@ public class PedroPathTeleOp extends OpMode {
                     rotate * 0.5,
                     false // Robot Centric
             );
-
-
-
-
-        //Slow Mode
-        if (gamepad1.rightBumperWasPressed()) {
-            slowMode = !slowMode;
-        }
-
-        //Optional way to change slow mode strength
-        if (gamepad1.xWasPressed()) {
-            slowModeMultiplier += 0.25;
-        }
-
-        //Optional way to change slow mode strength
-        if (gamepad1.yWasPressed()) {
-            slowModeMultiplier -= 0.25;
-        }
-
-
+//
+//
+//
+//
+//        //Slow Mode
+//        if (gamepad1.rightBumperWasPressed()) {
+//            slowMode = !slowMode;
+//        }
+//
+//        //Optional way to change slow mode strength
+//        if (gamepad1.xWasPressed()) {
+//            slowModeMultiplier += 0.25;
+//        }
+//
+//        //Optional way to change slow mode strength
+//        if (gamepad1.yWasPressed()) {
+//            slowModeMultiplier -= 0.25;
+//        }
+//
+//
         telemetryM.debug("position", follower.getPose());
         telemetryM.debug("velocity", follower.getVelocity());
         telemetryM.debug("automatedDrive", automatedDrive);

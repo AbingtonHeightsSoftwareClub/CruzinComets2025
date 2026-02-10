@@ -14,37 +14,40 @@ public class Intake {
     private boolean intake_on;
     private Gamepad gamepad;
     private boolean direction;
-    private boolean left_bumper_Pressed_LastCycle;
+    private boolean left_trigger_Pressed_LastCycle;
 
 
 
     public void init(HardwareMap hwMap, Gamepad gamepad1, Telemetry telemetry){
         intake = hwMap.get(DcMotorEx.class, "intake");
         gamepad=gamepad1;
-        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         // Reset the motor encoder so it reads 0 ticks
         intake.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         intake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        left_bumper_Pressed_LastCycle=false;
+        left_trigger_Pressed_LastCycle=false;
         direction = true;
+
+        intake.setDirection(DcMotorEx.Direction.REVERSE);
 
     }
 
     public void update(){
-        if (gamepad.dpadUpWasPressed()){
-            intake_on= !intake_on;
+
+        if (gamepad.aWasPressed()){
+            direction=!direction;
         }
 
-        if (gamepad.left_bumper && !left_bumper_Pressed_LastCycle){
-            if (direction){
-                direction=false;
-                intake.setDirection(DcMotorSimple.Direction.FORWARD);
-            }else{
-                direction=true;
-                intake.setDirection(DcMotorSimple.Direction.REVERSE);
-            }
+        if (direction){
+            intake.setDirection(DcMotorEx.Direction.REVERSE);
+        }else{
+            intake.setDirection(DcMotorEx.Direction.FORWARD);
+        }
+
+        if (gamepad.left_trigger>0.25 && !left_trigger_Pressed_LastCycle){
+            intake_on= !intake_on;
         }
 
         if (intake_on){
@@ -54,6 +57,7 @@ public class Intake {
             intake.setVelocity(0.0);
         }
 
-        left_bumper_Pressed_LastCycle=gamepad.right_bumper;
+        left_trigger_Pressed_LastCycle=gamepad.left_trigger>0.25;
+
     }
 }
