@@ -15,7 +15,6 @@ public class Storage {
     private Gamepad gamepad;
     private double velocity;
     private boolean advancing_wheels;
-    private boolean left_trigger_Pressed_LastCycle;
     private boolean direction;
 
 
@@ -26,35 +25,35 @@ public class Storage {
         storage.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         storage.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         advancing_wheels = false;
-        velocity = 1000.0;
-        left_trigger_Pressed_LastCycle=false;
+        velocity = 2800.0;
         direction = true;
     }
 
     public void update() {
 
-        if (gamepad.aWasPressed()){
+        if (gamepad.xWasPressed()){
             direction=!direction;
         }
 
         if (direction){
             storage.setDirection(DcMotorEx.Direction.FORWARD);
+            velocity=2800.0;
         }else{
             storage.setDirection(DcMotorEx.Direction.REVERSE);
+            velocity=-1200.0;
         }
 
 
-        if (gamepad.left_trigger>0.25 && !left_trigger_Pressed_LastCycle){
+        if (gamepad.left_bumper){
             advancing_wheels= !advancing_wheels;
         }
 
-        if (advancing_wheels){
-            storage.setVelocity(2800.0);
+        if (gamepad.left_bumper){
+            storage.setVelocity(velocity);
 
         }else{
             storage.setVelocity(0.0);
         }
 
-        left_trigger_Pressed_LastCycle=gamepad.left_trigger>0.25;
     }
 }

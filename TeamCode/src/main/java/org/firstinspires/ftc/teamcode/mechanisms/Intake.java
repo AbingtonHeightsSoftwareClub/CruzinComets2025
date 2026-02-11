@@ -15,6 +15,7 @@ public class Intake {
     private Gamepad gamepad;
     private boolean direction;
     private boolean left_trigger_Pressed_LastCycle;
+    private double speed;
 
 
 
@@ -31,12 +32,13 @@ public class Intake {
         direction = true;
 
         intake.setDirection(DcMotorEx.Direction.REVERSE);
+        speed = 2800.0;
 
     }
 
     public void update(){
 
-        if (gamepad.aWasPressed()){
+        if (gamepad.bWasPressed()){
             direction=!direction;
         }
 
@@ -50,8 +52,8 @@ public class Intake {
             intake_on= !intake_on;
         }
 
-        if (intake_on){
-            intake.setVelocity(2800.0);
+        if (gamepad.left_trigger>0.25){
+            intake.setVelocity(speed);
 
         }else{
             intake.setVelocity(0.0);

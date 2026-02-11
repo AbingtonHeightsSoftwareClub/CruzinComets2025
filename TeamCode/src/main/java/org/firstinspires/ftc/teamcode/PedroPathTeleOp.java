@@ -36,11 +36,16 @@ public class PedroPathTeleOp extends OpMode {
     private double forward;
     private double rotate;
 
+    private double dpad_translation;
+    private double dpad_rotation;
+
     private final Shooter shooter = new Shooter();
     private final Intake intake = new Intake();
 
     private final Hood hood = new Hood();
     private final Storage storage = new Storage();
+
+
 
 
     @Override
@@ -55,10 +60,12 @@ public class PedroPathTeleOp extends OpMode {
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
 
-        shooter.init(hardwareMap, gamepad1);
-        intake.init(hardwareMap, gamepad1, telemetry);
-        hood.init(hardwareMap, gamepad1, telemetry);
-        storage.init(hardwareMap, gamepad1, telemetry);
+        shooter.init(hardwareMap, gamepad2);
+        intake.init(hardwareMap, gamepad2, telemetry);
+        hood.init(hardwareMap, gamepad2, telemetry);
+        storage.init(hardwareMap, gamepad2, telemetry);
+        dpad_translation = 0.0;
+        dpad_rotation = 0.0;
 
 
 
@@ -71,6 +78,12 @@ public class PedroPathTeleOp extends OpMode {
         //The parameter controls whether the Follower should use break mode on the motors (using it is recommended).
         //In order to use float mode, add .useBrakeModeInTeleOp(true); to your Drivetrain Constants in Constant.java (for Mecanum)
         //If you don't pass anything in, it uses the default (false)
+        //Good afternoon everyone. Cell phones, earbuds, and Chromebooks have become a significant
+        //distraction in my classroom as of late. At the beginning of the year, I voiced my position
+        // of the matter, and was under the impression that you understood my expectation. My approach
+        //as of lately has been to point out my frustration in hopes that you would realize that
+        //continuing to disregard classroom rules would end with more direct measures.
+        //My experiments have failed.
         follower.startTeleopDrive();
     }
 
@@ -85,9 +98,24 @@ public class PedroPathTeleOp extends OpMode {
         intake.update();
         hood.update();
 
+        if (gamepad1.dpad_up){
+            dpad_translation = 0.3;
+        }else if (gamepad1.dpad_down){
+            dpad_translation = -0.3;
+        }else{
+            dpad_translation=0.0;
+        }
 
-        forward = -gamepad1.left_stick_y;
-        strafe = -gamepad1.left_stick_x ;
+        if (gamepad1.dpad_right){
+            dpad_rotation = 0.1;
+        }else if (gamepad1.dpad_left){
+            dpad_rotation = -0.1;
+        }else{
+            dpad_rotation=0.0;
+        }
+
+        forward = gamepad1.left_stick_y;
+        strafe = gamepad1.left_stick_x ;
         rotate = -gamepad1.right_stick_x;
 
 
@@ -134,5 +162,8 @@ public class PedroPathTeleOp extends OpMode {
         telemetryM.debug("velocity", follower.getVelocity());
         telemetryM.debug("automatedDrive", automatedDrive);
         telemetry.addData("Slowmode", slowMode);
+        telemetry.addData("X", follower.getPose().getX());
+        telemetry.addData("Y", follower.getPose().getY());
+        telemetry.addData("Heading", 180*follower.getPose().getHeading()/3.14159265358979);
     }
 }

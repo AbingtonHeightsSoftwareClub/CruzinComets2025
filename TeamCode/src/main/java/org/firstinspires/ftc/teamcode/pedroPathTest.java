@@ -50,6 +50,7 @@ public class pedroPathTest extends OpMode {
 
                 .build();
 
+
         Path3 = follower.pathBuilder().addPath(
                         new BezierLine(
                                 new Pose(26.904, 73.585),
@@ -117,7 +118,6 @@ public class pedroPathTest extends OpMode {
                     follower.followPath(Path5);
                     setPathState(-1);
                 }
-
         }
     }
 
@@ -139,8 +139,6 @@ public class pedroPathTest extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         buildPaths();
         follower.setStartingPose(new Pose(77.27031019202362, 11.403249630723794, Math.toRadians(91)));
-
-
     }
 
     @Override

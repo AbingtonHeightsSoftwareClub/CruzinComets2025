@@ -35,7 +35,7 @@ public class PIDTuning extends OpMode {
         }
 
         if (shooter_on){
-            shooter.setVelocity(3500.0);
+            shooter.setVelocity(2800.0);
 
         }else{
             shooter.setPower(0);
