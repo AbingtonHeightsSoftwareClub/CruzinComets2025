@@ -22,6 +22,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
 
@@ -35,35 +37,29 @@ import org.firstinspires.ftc.teamcode.mechanisms.Constants;
  * Driver Station OpMode list, or add a @Disabled annotation to prevent this OpMode from being
  * added to the Driver Station.
  */
+
 @TeleOp
 
 public class IntakeWheel extends OpMode {
-    /* Declare OpMode members. */
-    
-    DcMotorEx intakeWheel;
-    DcMotor hoodWheel;
+    private DcMotorEx intake;
+    private boolean intake_on;
+    private Gamepad gamepad;
+    private boolean direction;
+    private boolean left_bumper_Pressed_LastCycle;
 
-    DcMotor brushWheel;
-    double TPS;
-    int wheeltarget;
-    double  max_speed;
 
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized");
-        intakeWheel = hardwareMap.get(DcMotorEx.class, "intake_wheel");
-        hoodWheel = hardwareMap.get(DcMotor.class, "hood");
-        brushWheel = hardwareMap.get(DcMotor.class, "brush");
+        intake = hardwareMap.get(DcMotorEx.class, "intake");
+        gamepad=gamepad1;
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        // Reset the motor encoder so it reads 0 ticks
+        intake.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        intake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        intakeWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-        wheeltarget = (int) (610 * Constants.COUNTS_PER_MM);
-
-
-        TPS = (175 / 60) * Constants.COUNTS_PER_MM;
-        max_speed = 2800.0 * TPS;
+        left_bumper_Pressed_LastCycle=false;
+        direction = true;
 
     }
 
@@ -84,10 +80,6 @@ public class IntakeWheel extends OpMode {
     public void start() {
 
 
-        intakeWheel.setTargetPosition(wheeltarget);
-
-        intakeWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
 
     }
 
@@ -98,45 +90,30 @@ public class IntakeWheel extends OpMode {
     public void loop() {
 
 
-        if (gamepad1.y){
-            intakeWheel.setVelocity(max_speed);
+        if (gamepad.dpadUpWasPressed()){
+            intake_on= !intake_on;
         }
 
-        else if (gamepad1.b){
-            intakeWheel.setVelocity(max_speed * 0.8);
+        if (gamepad.left_bumper && !left_bumper_Pressed_LastCycle){
+            if (direction){
+                direction=false;
+                intake.setDirection(DcMotorSimple.Direction.FORWARD);
+            }else{
+                direction=true;
+                intake.setDirection(DcMotorSimple.Direction.REVERSE);
+            }
         }
 
-        else if (gamepad1.a){
-            intakeWheel.setVelocity(max_speed * 0.7);
+        if (intake_on){
+            intake.setVelocity(2800.0);
+
+        }else{
+            intake.setVelocity(0.0);
         }
 
-        else if (gamepad1.x){
-            intakeWheel.setVelocity(max_speed * 0.6);
-        }
+        left_bumper_Pressed_LastCycle=gamepad.right_bumper;
 
-        else {
-            intakeWheel.setVelocity(0.0);
-        }
 
-        if (gamepad1.dpad_up){
-            hoodWheel.setPower(0.01);
-        }
-
-        else if (gamepad1.dpad_down){
-            hoodWheel.setPower(-0.01);
-        }
-
-        else{
-            hoodWheel.setPower(0);
-        }
-
-        if(gamepad1.right_trigger > 0) {
-            brushWheel.setPower(1);
-        }
-
-        else {
-            brushWheel.setPower(0);
-        }
 
     }
 
@@ -145,8 +122,6 @@ public class IntakeWheel extends OpMode {
      */
     @Override
     public void stop() {
-        intakeWheel.setPower(0.0);
-        brushWheel.setPower(0);
-        hoodWheel.setPower(0);
+
     }
 }
