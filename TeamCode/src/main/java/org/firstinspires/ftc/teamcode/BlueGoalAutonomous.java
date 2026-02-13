@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
 
-@Autonomous(name = "Example Auto", group = "Examples")
+@Autonomous
 public class BlueGoalAutonomous extends OpMode {
 
 
