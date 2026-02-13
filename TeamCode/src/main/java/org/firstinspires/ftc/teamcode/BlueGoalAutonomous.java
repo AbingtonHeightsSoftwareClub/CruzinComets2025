@@ -106,7 +106,7 @@ public class BlueGoalAutonomous extends OpMode {
         opmodeTimer.resetTimer();
         follower = Constants.createFollower(hardwareMap);
         buildPaths();
-        follower.setStartingPose(new Pose(77.27031019202362, 11.403249630723794, Math.toRadians(91)));
+        follower.setStartingPose(new Pose(34.000, 136.000, Math.toRadians(270.0)));
     }
 
     @Override

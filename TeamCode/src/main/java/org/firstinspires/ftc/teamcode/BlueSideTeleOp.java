@@ -49,6 +49,8 @@ public class BlueSideTeleOp extends OpMode {
 
     @Override
     public void init() {
+        startingPose = new Pose(56.000, 36.000, Math.toRadians(270.0));
+
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
         follower.update();

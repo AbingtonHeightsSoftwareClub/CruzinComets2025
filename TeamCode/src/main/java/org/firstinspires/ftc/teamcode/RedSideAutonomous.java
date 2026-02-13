@@ -106,7 +106,7 @@ public class RedSideAutonomous extends OpMode {
         opmodeTimer.resetTimer();
         follower = Constants.createFollower(hardwareMap);
         buildPaths();
-        follower.setStartingPose(new Pose(77.27031019202362, 11.403249630723794, Math.toRadians(91)));
+        follower.setStartingPose(new Pose(88.000, 8.000, Math.toRadians(90.0)));
     }
 
     @Override

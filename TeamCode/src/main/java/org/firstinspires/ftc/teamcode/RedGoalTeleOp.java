@@ -49,6 +49,8 @@ public class RedGoalTeleOp extends OpMode {
 
     @Override
     public void init() {
+        startingPose = new Pose(89.000, 136.000, Math.toRadians(270.0));
+
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
         follower.update();
