@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
 
-@Autonomous(name = "Example Auto", group = "Examples")
-public class pedroPathTest extends OpMode {
+@Autonomous
+public class RedGoalAutonomous extends OpMode {
 
 
     private Follower follower;
@@ -30,44 +30,12 @@ public class pedroPathTest extends OpMode {
 
     public void buildPaths() {
         Path1 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(77.270, 11.403),
-                                new Pose(77.078, 39.761),
-                                new Pose(47.066, 30.470)
-                        )
-                ).setTangentHeadingInterpolation()
-
-                .build();
-
-        Path2 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(47.066, 30.470),
-                                new Pose(17.353, 22.801),
-                                new Pose(8.866, 43.029),
-                                new Pose(26.904, 73.585)
-                        )
-                ).setTangentHeadingInterpolation()
-
-                .build();
-
-
-        Path3 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(26.904, 73.585),
+                                new Pose(111.000, 136.000),
 
-                                new Pose(55.111, 72.253)
+                                new Pose(89.000, 136.000)
                         )
-                ).setTangentHeadingInterpolation()
-
-                .build();
-
-        Path4 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(55.111, 72.253),
-
-                                new Pose(48.069, 33.456)
-                        )
-                ).setTangentHeadingInterpolation()
+                ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(270))
 
                 .build();
     }
@@ -78,7 +46,7 @@ public class pedroPathTest extends OpMode {
         switch (pathState) {
             case 0:
                 follower.followPath(Path1);
-                setPathState(1);
+                setPathState(-1);
                 break;
             case 1:
             /* You could check for
