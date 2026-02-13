@@ -46,7 +46,7 @@ public class RedSideAutonomous extends OpMode {
         switch (pathState) {
             case 0:
                 follower.followPath(Path1);
-                setPathState(1);
+                setPathState(-1);
                 break;
             case 1:
             /* You could check for
