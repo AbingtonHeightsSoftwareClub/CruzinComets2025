@@ -13,17 +13,16 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
-import org.firstinspires.ftc.teamcode.mechanisms.Flipper;
 import org.firstinspires.ftc.teamcode.mechanisms.Hood;
-import org.firstinspires.ftc.teamcode.mechanisms.Shooter;
 import org.firstinspires.ftc.teamcode.mechanisms.Intake;
+import org.firstinspires.ftc.teamcode.mechanisms.Shooter;
 import org.firstinspires.ftc.teamcode.mechanisms.Storage;
 
 import java.util.function.Supplier;
 
 @Configurable
 @TeleOp
-public class PedroPathTeleOp extends OpMode {
+public class BlueGoalTeleOp extends OpMode {
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
     private boolean automatedDrive;
@@ -50,6 +49,7 @@ public class PedroPathTeleOp extends OpMode {
 
     @Override
     public void init() {
+        startingPose = new Pose(56.000, 136.000, Math.toRadians(270.0));
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
         follower.update();
@@ -91,7 +91,7 @@ public class PedroPathTeleOp extends OpMode {
     public void loop() {
         storage.update();
 
-//        //Call this once per loop
+        //Call this once per loop
         follower.update();
         telemetryM.update();
         shooter.update();
