@@ -49,7 +49,7 @@ public class BlueSideTeleOp extends OpMode {
 
     @Override
     public void init() {
-        startingPose = new Pose(56.000, 36.000, Math.toRadians(270.0));
+        startingPose = new Pose(56.000, 36.000, Math.toRadians(90.0));
 
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
@@ -115,9 +115,9 @@ public class BlueSideTeleOp extends OpMode {
             dpad_rotation=0.0;
         }
 
-        forward = gamepad1.left_stick_y;
+        forward = gamepad1.left_stick_y - dpad_translation;
         strafe = gamepad1.left_stick_x ;
-        rotate = -gamepad1.right_stick_x;
+        rotate = -gamepad1.right_stick_x -dpad_rotation;
 
 
 
