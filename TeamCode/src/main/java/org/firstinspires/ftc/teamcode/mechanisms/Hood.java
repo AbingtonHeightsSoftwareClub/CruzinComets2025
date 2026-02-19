@@ -12,9 +12,9 @@ public class Hood {
     double angle;
 
 
-    public void init(HardwareMap hwMap, Gamepad gamepad1, Telemetry telemetry) {
+    public void init(HardwareMap hwMap, Gamepad gamepad_pass_through, Telemetry telemetry) {
         hood_servo.init(hwMap, "hood");
-        gamepad = gamepad1;
+        gamepad = gamepad_pass_through;
         telemetry = telemetry;
     }
 

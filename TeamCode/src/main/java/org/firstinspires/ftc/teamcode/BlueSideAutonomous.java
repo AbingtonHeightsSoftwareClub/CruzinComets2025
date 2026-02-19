@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -11,6 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
+import org.firstinspires.ftc.teamcode.mechanisms.Shooter;
+import org.firstinspires.ftc.teamcode.mechanisms.Storage;
 
 @Autonomous
 public class BlueSideAutonomous extends OpMode {
@@ -19,6 +20,8 @@ public class BlueSideAutonomous extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
+    private final Shooter shooter = new Shooter();
+    private final Storage storage = new Storage();
 
 
     public PathChain Path1;
@@ -100,7 +103,8 @@ public class BlueSideAutonomous extends OpMode {
 
     @Override
     public void init() {
-
+        shooter.init(hardwareMap, gamepad2);
+        storage.init(hardwareMap, gamepad2);
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
@@ -126,6 +130,8 @@ public class BlueSideAutonomous extends OpMode {
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", follower.getPose().getHeading());
         telemetry.update();
+        storage.stop();
+        shooter.shoot();
 
     }
 

@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Storage {
     private DcMotorEx storage;
@@ -18,7 +15,7 @@ public class Storage {
     private boolean direction;
 
 
-    public void init(HardwareMap hwMap, Gamepad gamepad1, Telemetry telemetry) {
+    public void init(HardwareMap hwMap, Gamepad gamepad1) {
         storage = hwMap.get(DcMotorEx.class, "storage");
         gamepad = gamepad1;
         // Reset the motor encoder so it reads 0 ticks
@@ -55,5 +52,9 @@ public class Storage {
             storage.setVelocity(0.0);
         }
 
+    }
+
+    public void stop(){
+        storage.setVelocity(0.0);
     }
 }
