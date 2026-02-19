@@ -64,7 +64,7 @@ public class RedGoalTeleOp extends OpMode {
         shooter.init(hardwareMap, gamepad2);
         intake.init(hardwareMap, gamepad2, telemetry);
         hood.init(hardwareMap, gamepad2, telemetry);
-        storage.init(hardwareMap, gamepad2, telemetry);
+        storage.init(hardwareMap, gamepad2);
         dpad_translation = 0.0;
         dpad_rotation = 0.0;
 

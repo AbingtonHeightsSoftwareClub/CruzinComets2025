@@ -1,39 +1,56 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.pedropathing.util.Timer;
+
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Shooter {
     private DcMotorEx shooter;
-    private boolean shooter_on = false;
+
+
+    private Timer opmodeTimer;
 
 
     private Gamepad gamepad;
-    private boolean right_trigger_Pressed_LastCycle;
+
 
     public void init(HardwareMap hwMap, Gamepad gamepad1) {
+        opmodeTimer = new Timer();
+        opmodeTimer.resetTimer();
         shooter = hwMap.get(DcMotorEx.class, "shooter");
         gamepad = gamepad1;
         shooter.setDirection(DcMotorEx.Direction.REVERSE);
         shooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        right_trigger_Pressed_LastCycle = false;
+
     }
 
     public void update() {
-        if (gamepad.right_trigger > 0.25 && !right_trigger_Pressed_LastCycle) {
-            shooter_on = !shooter_on;
+
+
+        if (gamepad.right_trigger > 0.25) {
+            shooter.setVelocity(1800.0);
+
+        } else if(gamepad.right_bumper){
+            shooter.setVelocity(1300.0);
         }
 
-        if (shooter_on) {
-            shooter.setVelocity(2800.0);
-
-        } else {
+        else {
             shooter.setPower(0);
         }
-        right_trigger_Pressed_LastCycle = gamepad.right_trigger > 0.25;
+
+    }
+
+    public void shoot(){
+        opmodeTimer.resetTimer();
+        if (opmodeTimer.getElapsedTimeSeconds() > 2 && opmodeTimer.getElapsedTimeSeconds() < 4){
+            shooter.setVelocity(2100.00);
+        }
+        else{
+            shooter.setVelocity(0.0);
+        }
     }
 
 }
