@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.mechanisms.Constants.DEMONSTRATION_SPEED;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -22,7 +24,7 @@ import java.util.function.Supplier;
 
 @Configurable
 @TeleOp
-public class BlueGoalTeleOp extends OpMode {
+public class demonstration extends OpMode {
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
     private boolean automatedDrive;
@@ -49,7 +51,7 @@ public class BlueGoalTeleOp extends OpMode {
 
     @Override
     public void init() {
-        startingPose = new Pose(56.000, 136.000, Math.toRadians(270.0));
+        startingPose = new Pose(56.000, 136.000, Math.toRadians(90.0));
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
         follower.update();
@@ -120,44 +122,19 @@ public class BlueGoalTeleOp extends OpMode {
 
 
 
-            //Make the last parameter false for field-centric
-            //In case the drivers want to use a "slowMode" you can scale the vectors
+        //Make the last parameter false for field-centric
+        //In case the drivers want to use a "slowMode" you can scale the vectors
 
-            //This is the normal version to use in the TeleOp
-            if (!slowMode) follower.setTeleOpDrive(
-                    forward,
-                    strafe,
-                    rotate,
-                    true // Robot Centric
-            );
+        //This is the normal version to use in the TeleOp
+         follower.setTeleOpDrive(
+                -forward * DEMONSTRATION_SPEED,
+                -strafe* DEMONSTRATION_SPEED,
+                rotate* DEMONSTRATION_SPEED,
+                true // Robot Centric
+        );
 
-                //This is how it looks with slowMode on
-            else follower.setTeleOpDrive(
-                    forward * 0.3,
-                    strafe * 0.3,
-                    rotate * 0.5,
-                    true // Robot Centric
-            );
-//
-//
-//
-//
-//        //Slow Mode
-//        if (gamepad1.rightBumperWasPressed()) {
-//            slowMode = !slowMode;
-//        }
-//
-//        //Optional way to change slow mode strength
-//        if (gamepad1.xWasPressed()) {
-//            slowModeMultiplier += 0.25;
-//        }
-//
-//        //Optional way to change slow mode strength
-//        if (gamepad1.yWasPressed()) {
-//            slowModeMultiplier -= 0.25;
-//        }
-//
-//
+
+
         telemetryM.debug("position", follower.getPose());
         telemetryM.debug("velocity", follower.getVelocity());
         telemetryM.debug("automatedDrive", automatedDrive);
