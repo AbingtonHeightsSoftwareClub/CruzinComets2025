@@ -28,8 +28,6 @@ public class BlueSideTeleOp extends OpMode {
     private boolean automatedDrive;
     private Supplier<PathChain> pathChain;
     private TelemetryManager telemetryM;
-    private boolean slowMode = false;
-    private double slowModeMultiplier = 0.5;
 
     private double strafe;
     private double forward;
@@ -125,20 +123,14 @@ public class BlueSideTeleOp extends OpMode {
             //In case the drivers want to use a "slowMode" you can scale the vectors
 
             //This is the normal version to use in the TeleOp
-            if (!slowMode) follower.setTeleOpDrive(
-                    forward,
-                    strafe,
-                    rotate,
-                    false // Robot Centric
-            );
+            follower.setTeleOpDrive(
+                    forward * Constants.MAX_POWER,
+                    strafe* Constants.MAX_POWER,
+                    rotate* Constants.MAX_POWER,
+                    false ); // Robot centric
 
-                //This is how it looks with slowMode on
-            else follower.setTeleOpDrive(
-                    forward * 0.3,
-                    strafe * 0.3,
-                    rotate * 0.5,
-                    false // Robot Centric
-            );
+
+
 //
 //
 //
@@ -161,8 +153,6 @@ public class BlueSideTeleOp extends OpMode {
 //
         telemetryM.debug("position", follower.getPose());
         telemetryM.debug("velocity", follower.getVelocity());
-        telemetryM.debug("automatedDrive", automatedDrive);
-        telemetry.addData("Slowmode", slowMode);
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
         telemetry.addData("Heading", 180*follower.getPose().getHeading()/3.14159265358979);

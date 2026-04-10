@@ -15,8 +15,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 public class Constants {
-    public static final double MAX_POWER = 1.0;
+    public static final double MAX_POWER = 0.33;
     public static final double MAX_SPEED = 6.0*28.0;
+    public static final double DEMONSTRATION_SPEED = 0.4;
     public static final double COUNTS_PER_MOTOR_REV = 28.0;
     public static final double DRIVE_GEAR_REDUCTION = 3.7;
     public static final double WHEEL_CIRCUMFERENCE_MM = 104 * 3.14;

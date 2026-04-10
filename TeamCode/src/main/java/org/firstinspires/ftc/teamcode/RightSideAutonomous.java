@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -11,12 +10,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.mechanisms.Constants;
 
-@Autonomous(name = "Blue Side Shooting")
-public class BlueGoalAutonomous extends OpMode {
+@Autonomous(name = "Red Side Shooting")
+public class RightSideAutonomous extends OpMode {
 
 
     private Follower follower;
@@ -37,11 +35,11 @@ public class BlueGoalAutonomous extends OpMode {
     public void buildPaths() {
         Path1 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(34.000, 136.000),
+                                new Pose(56.000, 136.000),
 
-                                new Pose(56.000, 136.000)
+                                new Pose(34.000, 136.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(200))
+                ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(340))
 
                 .build();
     }
@@ -123,7 +121,7 @@ public class BlueGoalAutonomous extends OpMode {
         intake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         storage = hardwareMap.get(DcMotorEx.class, "storage");
         buildPaths();
-        follower.setStartingPose(new Pose(34.000, 136.000, Math.toRadians(270.0)));
+        follower.setStartingPose(new Pose(56.000, 136.000, Math.toRadians(270.0)));
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Storage {
         storage.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         storage.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         advancing_wheels = false;
-        velocity = 2800.0;
+        velocity = 1200.0;
         direction = true;
     }
 
